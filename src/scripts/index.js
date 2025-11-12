@@ -4,7 +4,26 @@ import App from "./pages/app";
 import Navbar from "./components/navbar";
 import SkipToContentInitiator from "./utils/skip-to-content-initiator";
 
+// Helper untuk mendapatkan base path
+const getBasePath = () => {
+  const isProduction = window.location.hostname.includes('github.io');
+  return isProduction ? '/storyapp/' : '/';
+};
+
+// Update manifest link dengan base path yang benar
+const updateManifestPath = () => {
+  const basePath = getBasePath();
+  const manifestLink = document.querySelector('link[rel="manifest"]');
+  
+  if (manifestLink) {
+    manifestLink.href = `${basePath}app.webmanifest`;
+  }
+};
+
 document.addEventListener("DOMContentLoaded", async () => {
+  // Update manifest path
+  updateManifestPath();
+  
   // Initialize Skip to Content feature
   SkipToContentInitiator.init({
     skipLinkId: "skip-to-content",
@@ -26,15 +45,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-// Register service worker - HANYA di production (GitHub Pages)
+// Register service worker
 const registerServiceWorker = async () => {
-  // Cek apakah di production (GitHub Pages)
   const isProduction = window.location.hostname.includes('github.io');
+  const basePath = getBasePath();
   
   if ("serviceWorker" in navigator && isProduction) {
     try {
-      const registration = await navigator.serviceWorker.register('/storyapp/sw.bundle.js', {
-        scope: '/storyapp/',
+      const registration = await navigator.serviceWorker.register(`${basePath}sw.bundle.js`, {
+        scope: basePath,
       });
       console.log("Service Worker registered with scope:", registration.scope);
       return registration;
