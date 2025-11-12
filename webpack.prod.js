@@ -8,6 +8,9 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 module.exports = merge(common, {
   mode: 'production',
   devtool: 'source-map',
+  output: {
+    publicPath: '/storyapp/',
+  },
   module: {
     rules: [
       {
