@@ -5,7 +5,8 @@
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "start-dev": "webpack serve --config webpack.dev.js",
-    "serve": "http-server dist -o -c-1"
+    "serve": "http-server dist",
+    "serve:docs": "npx serve docs"
   },
   "keywords": [],
   "author": "YOUR_NAME <yourmail@mail.com>",
@@ -16,6 +17,7 @@
     "babel-loader": "^10.0.0",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^13.0.1",
+    "cross-env": "^10.1.0",
     "css-loader": "^7.1.2",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
