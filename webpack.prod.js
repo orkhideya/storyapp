@@ -2,16 +2,12 @@ const common = require('./webpack.common.js');
 const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'production',
   devtool: 'source-map',
-  output: {
-    publicPath: '/storyapp/',
-  },
   module: {
     rules: [
       {
@@ -37,21 +33,9 @@ module.exports = merge(common, {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    
-    // Override HtmlWebpackPlugin untuk production
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src/index.html'),
-      filename: 'index.html',
-      // Inject base path untuk manifest
-      templateParameters: {
-        BASE_PATH: '/storyapp/'
-      },
-    }),
-    
     new MiniCssExtractPlugin({
       filename: 'app.css',
     }),
-    
     new InjectManifest({
       swSrc: path.resolve(__dirname, 'src/scripts/sw.js'),
       swDest: 'sw.bundle.js',

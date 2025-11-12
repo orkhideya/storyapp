@@ -11,7 +11,7 @@ module.exports = {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
-    publicPath: '/',
+    publicPath: './',
   },
   module: {
     rules: [
@@ -28,20 +28,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/index.html'),
       filename: 'index.html',
-      // Inject publicPath dinamis ke HTML
-      templateParameters: (compilation, assets, assetTags, options) => {
-        return {
-          compilation,
-          webpackConfig: compilation.options,
-          htmlWebpackPlugin: {
-            tags: assetTags,
-            files: assets,
-            options
-          },
-          // Tambahkan BASE_PATH yang bisa diakses di template
-          BASE_PATH: compilation.options.output.publicPath
-        };
-      },
     }),
     new CopyWebpackPlugin({
       patterns: [
