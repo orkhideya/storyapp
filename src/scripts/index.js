@@ -26,12 +26,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-// Register service worker HANYA di production
+// Register service worker - otomatis detect dev/prod
 const registerServiceWorker = async () => {
-  if ("serviceWorker" in navigator && process.env.NODE_ENV === "production") {
+  if ("serviceWorker" in navigator) {
     try {
-      const registration = await navigator.serviceWorker.register("/sw.bundle.js", {
-        scope: "/",
+      // Deteksi environment berdasarkan hostname
+      const isGitHubPages = window.location.hostname.includes('github.io');
+      const basePath = isGitHubPages ? '/storyapp' : '';
+      
+      const registration = await navigator.serviceWorker.register(`${basePath}/sw.bundle.js`, {
+        scope: isGitHubPages ? '/storyapp/' : '/',
       });
       console.log("Service Worker registered with scope:", registration.scope);
       return registration;
