@@ -26,16 +26,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-// Register service worker - otomatis detect dev/prod
+// Register service worker - HANYA di production (GitHub Pages)
 const registerServiceWorker = async () => {
-  if ("serviceWorker" in navigator) {
+  // Cek apakah di production (GitHub Pages)
+  const isProduction = window.location.hostname.includes('github.io');
+  
+  if ("serviceWorker" in navigator && isProduction) {
     try {
-      // Deteksi environment berdasarkan hostname
-      const isGitHubPages = window.location.hostname.includes('github.io');
-      const basePath = isGitHubPages ? '/storyapp' : '';
-      
-      const registration = await navigator.serviceWorker.register(`${basePath}/sw.bundle.js`, {
-        scope: isGitHubPages ? '/storyapp/' : '/',
+      const registration = await navigator.serviceWorker.register('/storyapp/sw.bundle.js', {
+        scope: '/storyapp/',
       });
       console.log("Service Worker registered with scope:", registration.scope);
       return registration;
@@ -43,6 +42,8 @@ const registerServiceWorker = async () => {
       console.error("Service Worker registration failed:", error);
       return null;
     }
+  } else if (!isProduction) {
+    console.log("Service Worker disabled in development mode");
   }
   return null;
 };
