@@ -1,2 +1,2 @@
-APP_URL=<url_aplikasi>
+APP_URL=<https://orkhideya.github.io/storyapp/>
 MAP_SERVICE_API_KEY=<api_key>
